@@ -80,3 +80,42 @@ For each firm-event pair:
 
 - Use `delta_CAR` as the dependent variable in a **cross-sectional DiD regression**.
 - Use the full event-time data to estimate **dynamic treatment effects** in an **event-time DiD model**, and visualize treatment coefficients over time.
+
+
+
+# Empirical Strategy
+
+## Baseline Cross-sectional DiD Model
+
+We estimate the following regression model:
+
+$$
+\text{delta\_CAR}_{i,e} = \alpha + \beta \cdot \text{Treatment}_i + \epsilon_{i,e}
+$$
+
+Where:
+
+- **$\text{delta\_CAR}_{i,e}$**: The change in cumulative abnormal return for firm *i* around event *e*, computed as:
+
+  $$
+  \text{delta\_CAR} = \text{CAR}_{\text{post}} - \text{CAR}_{\text{pre}}
+  $$
+
+- **$\text{Treatment}_i$**: An indicator variable equal to 1 if firm *i* is **hardware-dependent** (treatment group), and 0 if the firm belongs to the **control group**.
+
+- **$\alpha$**: The intercept, representing the average delta CAR for control firms.
+
+- **$\beta$**: The treatment effect — how much more (or less) the delta CAR is for hardware-dependent firms compared to control firms.
+
+- **$\epsilon_{i,e}$**: The error term, capturing unexplained variation at the firm-event level.
+
+### **Explanation of Results**
+
+In the baseline regression, the **treatment coefficient ($\beta$)** represents the difference in abnormal returns between hardware-dependent firms (Treatment group) and software-based firms (Control group). 
+
+- If $\beta$ is **positive** and **statistically significant**, this would suggest that hardware-dependent firms experienced a stronger positive reaction to policy events compared to the control group. 
+- Conversely, if $\beta$ is **negative** or **not significant**, this suggests that the treatment group did not respond more strongly, or even responded weaker, than the control group in terms of abnormal returns.
+
+The **intercept ($\alpha$)** represents the baseline abnormal return for the control group (software-focused firms with no hardware dependence), and is often expected to be close to zero if the control group’s response is neutral.
+
+If your result shows that the treatment effect ($\beta$) is **significant**, it would provide evidence that hardware dependency influences firm reactions to policy changes. On the other hand, a **non-significant**
