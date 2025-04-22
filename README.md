@@ -118,4 +118,4 @@ In the baseline regression, the **treatment coefficient ($\beta$)** represents t
 
 The **intercept ($\alpha$)** represents the baseline abnormal return for the control group (software-focused firms with no hardware dependence), and is often expected to be close to zero if the control group’s response is neutral.
 
-If your result shows that the treatment effect ($\beta$) is **significant**, it would provide evidence that hardware dependency influences firm reactions to policy changes. On the other hand, a **non-significant**
+If your result shows that the treatment effect ($\beta$) is **significant**, it would provide evidence that hardware dependency influences firm reactions to policy changes. On the other hand, a **non-significant** result might imply that other factors or market-wide forces are influencing these reactions, and hardware dependence alone doesn't explain the variation in responses to policy shocks.
