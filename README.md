@@ -119,3 +119,23 @@ In the baseline regression, the **treatment coefficient ($\beta$)** represents t
 The **intercept ($\alpha$)** represents the baseline abnormal return for the control group (software-focused firms with no hardware dependence), and is often expected to be close to zero if the control group’s response is neutral.
 
 If your result shows that the treatment effect ($\beta$) is **significant**, it would provide evidence that hardware dependency influences firm reactions to policy changes. On the other hand, a **non-significant** result might imply that other factors or market-wide forces are influencing these reactions, and hardware dependence alone doesn't explain the variation in responses to policy shocks.
+
+
+
+
+## Main Experiment: Event Time DiD + Event Study Image Analysis
+
+The Event-time DiD model is specified as follows:
+
+$$
+Y_{iet} = \sum_{k \neq -1} \beta_k \cdot D_k + \gamma_i + \delta_e + \epsilon_{iet}
+$$
+
+Where:
+
+- **$Y_{iet}$**: The dependent variable, such as abnormal return or cumulative abnormal return (CAR).
+- **$D_k$**: The dummy variable for each relative time point $k$ (for example, $k = -5, -4, \dots, +10$).
+- **$k = -1$** is used as the baseline, allowing us to estimate the treatment effect $\beta_k$ for each time point.
+- **$\gamma_i$**: Firm fixed effects, controlling for firm-specific characteristics.
+- **$\delta_e$**: Event fixed effects, controlling for differences in the intensity of different events.
+- **$\epsilon_{iet}$**: Error term.
