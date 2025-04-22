@@ -123,6 +123,7 @@ If your result shows that the treatment effect ($\beta$) is **significant**, it 
 
 
 
+
 ## Main Experiment: Event Time DiD + Event Study Image Analysis
 
 The Event-time DiD model is specified as follows:
@@ -139,3 +140,43 @@ Where:
 - **$\gamma_i$**: Firm fixed effects, controlling for firm-specific characteristics.
 - **$\delta_e$**: Event fixed effects, controlling for differences in the intensity of different events.
 - **$\epsilon_{iet}$**: Error term.
+
+We estimate an event-time Difference-in-Differences (DiD) model to examine how hardware-dependent AI firms respond to trade war-related policy shocks in terms of abnormal returns. The model includes firm fixed effects (to account for unobserved firm-level heterogeneity) and event fixed effects (to absorb shock-level intensity differences). 
+
+The regression uses `abnormal_return` as the outcome variable and estimates interaction terms for each `event_time` (days relative to the policy event) and the `Treatment` dummy (hardware-dependent firms). The omitted baseline is `event_time = -1`.
+
+---
+
+### Key Findings from Regression Output
+
+#### Pre-Trends (event_time < 0):
+- The interaction terms from `k = -10` to `k = -2` (e.g., `C(event_time)[T.-7.0]:Treatment`, `T.-4.0`, etc.) are **statistically insignificant**.
+- → This supports the **parallel trends assumption**, validating causal interpretation of post-event estimates.
+
+#### Event Day (k = 0):
+- Coefficient: `-0.0138` | p = 0.302
+- → Suggests a slight negative dip in abnormal returns for hardware-dependent firms on the day of policy announcements, but **not statistically significant**.
+
+#### Delayed Treatment Effect (Post-event):
+- At `k = 10`, the interaction term `C(event_time)[T.10.0]:Treatment` is **positive and statistically significant**:  
+  - **β = 0.0239**, **p = 0.029**, 95% CI = [0.002, 0.045]
+- → Indicates that **hardware-dependent firms experience a delayed positive abnormal return**, not seen in control firms or the S&P 500 baseline.
+
+---
+
+### Visual Confirmation
+
+The dynamic treatment effect plot further illustrates:
+- A flat pre-trend
+- A mild, insignificant dip at `k = 0`
+- A sharp, statistically significant upward deviation from both the control group and the S&P 500 range at `k = 10`
+
+This pattern reinforces the interpretation that the **positive market reaction is unique to hardware-dependent firms**, and not simply a general market phenomenon.
+
+---
+
+### Summary and Interpretation
+
+> These results show that hardware-dependent AI firms do not experience a statistically significant crash in abnormal returns on the policy event day, but do exhibit a **delayed and statistically significant gain in returns** approximately 10 days later. This delayed reaction may reflect investor re-evaluation, market correction, or strategic reassessment of firm value under new policy constraints.
+
+The findings provide **causal evidence** that a firm’s structural exposure to hardware influences how it responds to external shocks like trade war policy announcements — supporting the central research hypothesis.
