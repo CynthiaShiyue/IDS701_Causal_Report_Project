@@ -10,11 +10,11 @@ We construct a panel dataset that aligns stock return data across multiple AI-re
   - NVIDIA, AMD, Intel  
   Firms with heavy reliance on AI hardware (e.g., GPU/TPU).
 
-- **Control group 1 (T = 0):**
+- **Control group 1:**
   - Palantir, C3.ai, Snowflake Inc. 
   AI-native software/SaaS firms.
 
-- **Control group 2 (for robustness):**
+- **Control group 2 (T = 0):**
   - Salesforce, Oracle, Adobe  
   Large-cap software/cloud service companies.
 
