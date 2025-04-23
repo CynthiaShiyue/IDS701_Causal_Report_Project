@@ -10,11 +10,11 @@ We construct a panel dataset that aligns stock return data across multiple AI-re
   - NVIDIA, AMD, Intel  
   Firms with heavy reliance on AI hardware (e.g., GPU/TPU).
 
-- **Control group 1 (T = 0):**
+- **Control group 1 :**
   - Palantir, C3.ai, Snowflake Inc. 
   AI-native software/SaaS firms.
 
-- **Control group 2 (for robustness):**
+- **Control group 2 (T = 0):**
   - Salesforce, Oracle, Adobe  
   Large-cap software/cloud service companies.
 
@@ -55,31 +55,35 @@ For each firm-event pair:
 
 ---
 
-## Final Dataset Structure (`full_df`)
+## Final Dataset Structure (`robust_df`)
 
-| Column Name       | Description |
-|-------------------|-------------|
-| `Date`            | Daily observation date |
-| `ticker`          | Stock ticker |
-| `Close`           | Closing price |
-| `Return`          | Daily return |
-| `Treatment`       | 1 if hardware-dependent firm, 0 otherwise |
-| `expected_return` | Expected return based on historical average |
-| `abnormal_return` | Actual – Expected return |
-| `event_id`        | Associated policy event identifier |
-| `event_date`      | Date of the policy event |
-| `event_time`      | Days relative to event (0 = event date) |
-| `CAR_pre`         | Cumulative abnormal return before event |
-| `CAR_post`        | Cumulative abnormal return after event |
-| `delta_CAR`       | Post – Pre CAR difference |
-| `post`            | 1 if date is after event date, 0 otherwise |
+| Variable              | Definition / Formula |
+|-----------------------|----------------------|
+| `Date`                | Trading calendar date of the stock |
+| `ticker`              | Ticker symbol of the stock (e.g., NVDA, PLTR) |
+| `Close`               | Closing price of the stock on a given day |
+| `Return`              | Daily return of the stock:  $R_{i,t} = \frac{P_{i,t} - P_{i,t-1}}{P_{i,t-1}}$ |
+| `expected_return`     | Rolling expected return from estimation window:  $\bar{R}_i = \frac{1}{T} \sum_{t=-90}^{-30} R_{i,t}$ |
+| `abnormal_return` (AR)| Abnormal return:  $AR_{i,t} = R_{i,t} - \bar{R}_i$ |
+| `event_id`            | Event identifier (e.g., `2022_export_control`) |
+| `event_date`          | Announcement date of trade policy shock |
+| `event_time`          | Time relative to event: $t = \text{Date} - \text{event\_date}$ |
+| `CAR_pre`             | Cumulative Abnormal Return pre-event: $\sum_{t=-10}^{-1} AR_{i,t}$ |
+| `CAR_post`            | Cumulative Abnormal Return post-event: $\sum_{t=0}^{10} AR_{i,t}$ |
+| `delta_CAR`           | Difference-in-differences outcome: $CAR_{\text{post}} - CAR_{\text{pre}}$ |
+| `post`                | Event-time indicator: $1$ if $t \geq 0$, else $0$ |
+| `CAR` (custom window) | Total abnormal return over user-defined window: $\sum_{t=a}^{b} AR_{i,t}$ |
+| `Treatment`           | Group indicator: $1$ if firm is hardware-dependent, else $0$ |
+| `Treatment × post`    | Interaction term: $Treatment_i \times post_{it}$, used for DiD |
+| `firm_FE`             | Firm fixed effect (optional, for regression control of firm-level heterogeneity) |
+| `event_FE`            | Event fixed effect (optional, for regression control of event-level shocks) |
 
 ---
 
 ## Next Steps
 
 - Use `delta_CAR` as the dependent variable in a **cross-sectional DiD regression**.
-- Use the full event-time data to estimate **dynamic treatment effects** in an **event-time DiD model**, and visualize treatment coefficients over time.
+- Use `AR` as the dependent variable estimate **dynamic treatment effects** in an **event-time DiD model**, and visualize treatment coefficients over time.
 
 
 
